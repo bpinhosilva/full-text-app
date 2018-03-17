@@ -1,0 +1,26 @@
+{
+  "name": "full-text-app",
+  "version": "1.0.0",
+  "description": "A simple disc CRUD application with full-text capabilities. ",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/bpinhosilva/full-text-app.git"
+  },
+  "keywords": [
+    "full-text"
+  ],
+  "author": "Bruno Pinho",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/bpinhosilva/full-text-app/issues"
+  },
+  "homepage": "https://github.com/bpinhosilva/full-text-app#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
