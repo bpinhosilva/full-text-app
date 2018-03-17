@@ -6,15 +6,21 @@ A simple disc CRUD application with full-text capabilities.
 1.0.0
 
 ### Dependencies
-* docker
-* docker-compose
-* Node.js
-* MySQL
+* [docker](https://docs.docker.com/install/)
+* [docker-compose](https://docs.docker.com/compose/install/#install-compose)
 
 ### Install
 
+Build the app
+
 ```sh
-$ npm i
+$ docker-compose build
+```
+
+Launch the entire application stack
+
+```sh
+$ docker-compose up
 ```
 
 ### License
