@@ -1,9 +1,14 @@
-var express = require('express');
-var router = express.Router();
+'use strict';
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+let express = require('express');
+let router = express.Router();
+
+router.get('/', function (req, res, next) {
+    res.send("Ok");
+});
+
+router.get('/alive', (req, res, next) => {
+    res.send("alive");
 });
 
 module.exports = router;
