@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  api: # Back-end Node.js
+    container_name: api
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - ES_HOST=elasticsearch
+      - NODE_ENV=development
+      - PORT=3000
+    volumes:
+      - ./discs:/usr/src/app/discs
+
+  frontend:
+    container_name: frontend
+    image: nginx
+    volumes:
+      - ./public:/usr/share/nginx/html
+    ports:
+      - "8080:80"
+
+  elasticsearch:
+    container_name: searchsystem
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.1.1
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    environment:
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    ports:
+      - "9300:9300"
+      - "9200:9200"
+
+volumes:
+  esdata:
