@@ -1,5 +1,12 @@
 'use strict';
 
 module.exports = {
-    core: ''
+    dbConfig: {
+        host: 'mysqldb',
+        port: '3306',
+        database: 'mediacollection',
+        user: 'root',
+        password: 'root',
+        connectionLimit: 10
+    }
 };

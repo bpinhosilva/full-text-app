@@ -1,5 +1,12 @@
 'use strict';
 
 module.exports = {
-    core: ''
+    dbConfig: {
+        host: '',
+        port: '',
+        database: '',
+        user: '',
+        password: '',
+        connectionLimit: 10
+    }
 };
