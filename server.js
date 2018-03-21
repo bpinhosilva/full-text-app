@@ -13,8 +13,6 @@ let favicon = require('serve-favicon');
 let logger = require('morgan');
 let helmet = require('helmet');
 
-let appConfig = require('config');
-
 apps.use(helmet.noCache());
 apps.use(logger('dev', {
     skip: function (req, res) {
@@ -22,12 +20,12 @@ apps.use(logger('dev', {
     }
 }));
 
-let mainApp = require('./app');
+let api = require('./app');
 
 //apps.use(favicon(path.join(STATIC_PATH, 'web/img/favicon.png')));
 
-apps.use(express.static(path.join(__dirname, 'public')));
-apps.use('/api', mainApp);
+// apps.use(express.static(path.join(__dirname, 'public')));
+apps.use('/api', api.getApp());
 
 /**
  * Normalize a port into a number, string, or false.
@@ -93,7 +91,7 @@ function onListening() {
 let port = normalizePort(process.env.PORT || '3000');
 apps.set('port', port);
 
-// Treat invalid back-end call or redirect to front-end application
+/*// Treat invalid back-end call or redirect to front-end application
 apps.use(function (req, res, next) {
     if (req.path.indexOf('/api') === 0) {
         debug("Invalid endpoint access: " + req.path);
@@ -119,7 +117,7 @@ apps.use(function (req, res, next) {
             }
         });
     }
-});
+});*/
 
 // Treat invalid back-end call
 apps.use((req, res, next) => {
