@@ -10,8 +10,12 @@ services:
       - ES_HOST=elasticsearch
       - NODE_ENV=development
       - PORT=3000
+      - DEBUG=full-text-app:*
+    depends_on:
+      - mysql
     volumes:
-      - ./discs:/usr/src/app/discs
+      # - ./discs:/usr/src/app/discs
+      - .:/usr/src/app
 
   frontend:
     container_name: frontend
@@ -34,5 +38,19 @@ services:
       - "9300:9300"
       - "9200:9200"
 
+  mysql:
+    container_name: mysqldb
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "mediacollection"
+    volumes:
+      - mysqldata:/var/lib/mysql
+      - ./scripts/dump.sql:/docker-entrypoint-initdb.d/dump.sql
+    restart: always
+    ports:
+      - "7706:3306"
+
 volumes:
   esdata:
+  mysqldata:
