@@ -1,0 +1,102 @@
+<div class="form-group">
+    <label for="name" class="col-sm-2 control-label">Name</label>
+    <div class="col-sm-8">
+        <input type="text"
+               ng-model="disc.name"
+               ng-maxlength="300"
+               maxlength="300"
+               class="form-control"
+               id="name"
+               placeholder="Name"/>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="artist" class="col-sm-2 control-label">Artist</label>
+    <div class="col-sm-8">
+        <input type="text"
+               ng-model="disc.artist"
+               ng-maxlength="300"
+               maxlength="300"
+               class="form-control"
+               id="artist"
+               placeholder="Artist"/>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="release_date" class="col-sm-2 control-label">Release date</label>
+    <div class="col-sm-8">
+
+        <input type="date"
+               ng-model="disc.release_date"
+               ng-maxlength="300"
+               maxlength="300"
+               class="form-control"
+               id="release_date"
+               placeholder="Release date"/>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="studio" class="col-sm-2 control-label">Studio</label>
+    <div class="col-sm-8">
+        <input type="text"
+               ng-model="disc.studio"
+               ng-maxlength="300"
+               maxlength="300"
+               class="form-control"
+               id="studio"
+               placeholder="Studio"/>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="genre" class="col-sm-2 control-label">Genre</label>
+    <div class="col-sm-8">
+        <input type="text"
+               ng-model="disc.genre"
+               ng-maxlength="300"
+               maxlength="300"
+               class="form-control"
+               id="genre"
+               placeholder="Genre"/>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="label" class="col-sm-2 control-label">Label</label>
+    <div class="col-sm-8">
+        <input type="text"
+               ng-model="disc.label"
+               ng-maxlength="300"
+               maxlength="300"
+               class="form-control"
+               id="label"
+               placeholder="Label"/>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="producer" class="col-sm-2 control-label">Producer</label>
+    <div class="col-sm-8">
+        <input type="text"
+               ng-model="disc.producer"
+               ng-maxlength="300"
+               maxlength="300"
+               class="form-control"
+               id="producer"
+               placeholder="Producer"/>
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+        <input type="submit"
+               class="btn btn-primary"
+               value="Salvar"
+               ng-disabled="discForm.$invalid"/>
+
+        <button type="button" class="btn btn-danger" ng-click="cancelOperation()">Cancel</button>
+    </div>
+</div>
