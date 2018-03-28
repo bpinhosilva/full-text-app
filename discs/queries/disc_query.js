@@ -6,6 +6,8 @@ module.exports = {
 
     SELECT: "SELECT * FROM disc LIMIT ? OFFSET ?",
 
+    SELECT_ONE_BY_ID: "SELECT * FROM disc WHERE id = ?",
+
     UPDATE: "UPDATE disc SET name = ?, " +
             "artist = ?, " +
             "release_date = ?, " +
