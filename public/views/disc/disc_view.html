@@ -1,0 +1,50 @@
+<div class="row">
+    <div class="col-lg-6">
+        <h3>Discs</h3>
+    </div>
+
+    <div class="col-lg-4">
+        <button type="button"
+                class="btn btn-primary pull-right"
+                ng-click="goToCreateView()">Insert Disc
+        </button>
+    </div>
+</div>
+<hr>
+
+<div class="row">
+    <div class="col-md-12 col-lg-12">
+        <table class="table table-responsive">
+            <thread>
+                <tr>
+                    <th>Name</th>
+                    <th>Artist</th>
+                    <th>Release date</th>
+                    <th>Studio</th>
+                    <th>Genre</th>
+                    <th>Label</th>
+                    <th>Producer</th>
+                    <th></th>
+                </tr>
+            </thread>
+
+            <tbody>
+            <tr ng-repeat="disc in discs">
+                <td>{{disc.name}}</td>
+                <td>{{disc.artist}}</td>
+                <td>{{disc.release_date | date: "longDate"}}</td>
+                <td>{{disc.studio}}</td>
+                <td>{{disc.genre}}</td>
+                <td>{{disc.label}}</td>
+                <td>{{disc.producer}}</td>
+                <td>
+                    <a class="btn btn-primary" ng-href="disc/{{disc.id}}/edit">Edit</a>
+                    <a class="btn btn-danger" ng-click="deleteDisc($index)">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Remove
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
