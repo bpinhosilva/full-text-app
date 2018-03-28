@@ -12,8 +12,10 @@ COPY package*.json /usr/src/app/
 # install app dependencies
 RUN npm i
 
+RUN npm i -g nodemon
+
 # copy sourcecode
 COPY . /usr/src/app
 
 # run the app
-CMD [ "npm", "start" ]
+CMD [ "nodemon", "start" ]
