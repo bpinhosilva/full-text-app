@@ -69,6 +69,30 @@ class DiscBusiness extends ApiBusiness {
         });
     }
 
+    getDiscById(id) {
+        let self = this;
+
+        return new Promise((resolve, reject) => {
+            self.getDBClient().getConnection((err, conn) => {
+                if (err) {
+                    console.error(err);
+                    return reject(err);
+                }
+
+                conn.query(self.query.SELECT_ONE_BY_ID, [id], (err, results, fields) => {
+                    if (err) {
+                        console.error(err);
+                        return reject(err);
+                    }
+                    else {
+                        conn.release();
+                        resolve(results.length !== 0 ? results[0] : []);
+                    }
+                });
+            });
+        });
+    }
+
     updateDiscById(disc) {
         let self = this;
 
