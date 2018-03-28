@@ -22,8 +22,10 @@ services:
     image: nginx
     volumes:
       - ./public:/usr/share/nginx/html
+      - ./scripts/nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
-      - "8080:80"
+      - "80:80"
+    #command: /bin/bash -c "envsubst < /etc/nginx/conf.d/front.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
 
   elasticsearch:
     container_name: searchsystem
