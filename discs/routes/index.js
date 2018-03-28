@@ -38,6 +38,14 @@ router.get('/', (req, res, next) => {
     });
 });
 
+router.get('/:id', (req, res, next) => {
+    discBusiness.getDiscById(req.params.id).then(disc => {
+        res.send(disc);
+    }).catch(err => {
+        next(err);
+    });
+});
+
 router.put('/:id', (req, res, next) => {
     let disc = req.body;
     disc.id = req.params.id;
