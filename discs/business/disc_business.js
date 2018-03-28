@@ -1,12 +1,13 @@
 'use strict';
 
-let query = require('../queries/disc_query');
 let ApiBusiness = require('../../business/api_business');
+let DiscModel = require('../model/disc_model');
+let ApiException = require('../../exception/api_exception');
 
 class DiscBusiness extends ApiBusiness {
     constructor() {
         super();
-        this.query = query;
+        this.discModel = new DiscModel(this.getDBClient());
     }
 
     getAllDiscs(query) {
@@ -22,124 +23,39 @@ class DiscBusiness extends ApiBusiness {
         if (!Number.isNaN(offsetParam) && Number.isFinite(offsetParam))
             offset = offsetParam;
 
-        return new Promise((resolve, reject) => {
-            self.getDBClient().getConnection((err, conn) => {
-                if (err) {
-                    console.error(err);
-                    return reject(err);
-                }
-
-                conn.query(self.query.SELECT, [limit, offset], (err, results, fields) => {
-                    if (err) {
-                        console.error(err);
-                        return reject(err);
-                    }
-                    else {
-                        conn.release();
-                        resolve(results);
-                    }
-                });
-            });
-        });
+        return self.discModel.getAll({limit: limit, offset: offset});
     }
 
     insertDisc(disc) {
         let self = this;
 
-        return new Promise((resolve, reject) => {
-            self.getDBClient().getConnection((err, conn) => {
-                if (err) {
-                    console.error(err);
-                    return reject(err);
-                }
-
-                conn.query(self.query.INSERT,
-                    [disc.name, disc.artist, disc.release_date, disc.studio, disc.genre, disc.label, disc.producer],
-                    (err, results, fields) => {
-                        if (err) {
-                            console.error(err);
-                            return reject(err);
-                        }
-                        else {
-                            conn.release();
-                            resolve(results);
-                        }
-                    });
-            });
+        return self.discModel.validateFields(disc).then(ok => {
+            return self.discModel.insertOne(disc);
+        }).catch(err => {
+            return Promise.reject(new ApiException(err));
         });
     }
 
     getDiscById(id) {
         let self = this;
 
-        return new Promise((resolve, reject) => {
-            self.getDBClient().getConnection((err, conn) => {
-                if (err) {
-                    console.error(err);
-                    return reject(err);
-                }
-
-                conn.query(self.query.SELECT_ONE_BY_ID, [id], (err, results, fields) => {
-                    if (err) {
-                        console.error(err);
-                        return reject(err);
-                    }
-                    else {
-                        conn.release();
-                        resolve(results.length !== 0 ? results[0] : []);
-                    }
-                });
-            });
-        });
+        return self.discModel.getOneById(id);
     }
 
     updateDiscById(disc) {
         let self = this;
 
-        return new Promise((resolve, reject) => {
-            self.getDBClient().getConnection((err, conn) => {
-                if (err) {
-                    console.error(err);
-                    return reject(err);
-                }
-
-                conn.query(self.query.UPDATE, [disc.name, disc.artist, disc.release_date,
-                    disc.studio, disc.genre, disc.label, disc.producer, disc.id], (err, results, fields) => {
-                    if (err) {
-                        console.error(err);
-                        return reject(err);
-                    }
-                    else {
-                        conn.release();
-                        resolve(results);
-                    }
-                });
-            });
+        return self.discModel.validateFields(disc).then(ok => {
+            return self.discModel.updateOneById(disc);
+        }).catch(err => {
+            return Promise.reject(new ApiException(err));
         });
     }
 
     deleteDiscById(discId) {
         let self = this;
 
-        return new Promise((resolve, reject) => {
-            self.getDBClient().getConnection((err, conn) => {
-                if (err) {
-                    console.error(err);
-                    return reject(err);
-                }
-
-                conn.query(self.query.DELETE, [discId], (err, results, fields) => {
-                    if (err) {
-                        console.error(err);
-                        return reject(err);
-                    }
-                    else {
-                        conn.release();
-                        resolve(results);
-                    }
-                });
-            });
-        });
+        return self.discModel.deleteOneById(discId);
     }
 }
 
