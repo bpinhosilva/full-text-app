@@ -5,15 +5,13 @@ let express = require('express');
 let router = express.Router();
 let mainApp = require('../../app');
 
-/*let searchClient = require('../client/search_client');
 router.get('/search', (req, res, next) => {
-    const {term, offset} = req.query;
-    searchClient.queryTerm(term, offset).then(results => {
+    discBusiness.queryTerm(req.query).then(results => {
         res.send(results);
     }).catch(err => {
         next(err);
     });
-});*/
+});
 
 let discBusiness = mainApp.getDiscBusiness();
 
