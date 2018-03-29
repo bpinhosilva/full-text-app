@@ -1,5 +1,5 @@
-# Node v8.9.0
-FROM node:carbon
+# Node v8.9.4
+FROM node:8.9.4
 
 # app working directory
 WORKDIR /usr/src/app
