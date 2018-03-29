@@ -23,5 +23,9 @@ Launch the entire application stack
 $ docker-compose up
 ```
 
+The web app will be ready at http://localhost:80
+
+The back-end will be ready at http://localhost:3000/api
+
 ### License
 Please, read the License file on this repository for more information.
