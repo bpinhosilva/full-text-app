@@ -21,6 +21,11 @@ app.config(function ($routeProvider, $locationProvider) {
             controller: "DiscNewCtrl",
             controllerAs: "discNewCtrl"
         })
+        .when("/disc/search", {
+            templateUrl: "views/disc/disc_search_view.html",
+            controller: "DiscSearchCtrl",
+            controllerAs: "discSearchCtrl"
+        })
         .when("/disc/:id/edit", {
             templateUrl: "views/disc/disc_edit_view.html",
             controller: "DiscEditCtrl",
