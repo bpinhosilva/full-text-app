@@ -3,6 +3,8 @@
 let query = require('../queries/disc_query');
 const schema = require("schm");
 const { validate } = schema;
+let SearchClient = require('../../client/search_client');
+let config = require('config');
 
 class DiscModel {
     constructor(dbClient) {
@@ -39,6 +41,8 @@ class DiscModel {
                 required: true
             }
         });
+
+        this.searchClient = new SearchClient(config.get('searchConfig'));
     }
 
     validateFields(obj) {
@@ -93,6 +97,11 @@ class DiscModel {
                         else {
                             conn.release();
                             resolve(results);
+
+                            let discData = disc;
+                            discData.id = results.insertId;
+
+                            self.searchClient.bulkIndex(discData);
                         }
                     });
             });
@@ -142,6 +151,8 @@ class DiscModel {
                     else {
                         conn.release();
                         resolve(results);
+
+                        self.searchClient.bulkUpdate(disc);
                     }
                 });
             });
@@ -166,10 +177,16 @@ class DiscModel {
                     else {
                         conn.release();
                         resolve(results);
+
+                        self.searchClient.bulkDelete(discId);
                     }
                 });
             });
         });
+    }
+
+    searchByTerm(term, offset = 0) {
+        return this.searchClient.queryTerm(term, offset);
     }
 }
 
