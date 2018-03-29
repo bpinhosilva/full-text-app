@@ -7,6 +7,7 @@
                maxlength="300"
                class="form-control"
                id="name"
+               required
                placeholder="Name"/>
     </div>
 </div>
@@ -20,6 +21,7 @@
                maxlength="300"
                class="form-control"
                id="artist"
+               required
                placeholder="Artist"/>
     </div>
 </div>
@@ -34,6 +36,7 @@
                maxlength="300"
                class="form-control"
                id="release_date"
+               required
                placeholder="Release date"/>
     </div>
 </div>
@@ -47,6 +50,7 @@
                maxlength="300"
                class="form-control"
                id="studio"
+               required
                placeholder="Studio"/>
     </div>
 </div>
@@ -60,6 +64,7 @@
                maxlength="300"
                class="form-control"
                id="genre"
+               required
                placeholder="Genre"/>
     </div>
 </div>
@@ -73,6 +78,7 @@
                maxlength="300"
                class="form-control"
                id="label"
+               required
                placeholder="Label"/>
     </div>
 </div>
@@ -86,6 +92,7 @@
                maxlength="300"
                class="form-control"
                id="producer"
+               required
                placeholder="Producer"/>
     </div>
 </div>
@@ -95,6 +102,7 @@
         <input type="submit"
                class="btn btn-primary"
                value="Salvar"
+               required
                ng-disabled="discForm.$invalid"/>
 
         <button type="button" class="btn btn-danger" ng-click="cancelOperation()">Cancel</button>
