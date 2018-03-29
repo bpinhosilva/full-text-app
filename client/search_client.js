@@ -1,73 +1,95 @@
 'use strict';
 
-// TODO: refactor.
-
 let elasticsearch = require('elasticsearch');
 
-const index = 'mediacollection';
-const type = 'disc';
-const port = 9200;
-const host = process.env.ES_HOST || 'localhost';
-const client = new elasticsearch.Client({host: {host, port}});
+class SearchClient {
+    constructor(options) {
+        this.index = options.index;
+        this.type = options.type;
+        this.port = options.port;
+        this.host = options.host;
+        this.schema = options.schema;
 
-/** Check the ES connection status */
-async function checkConnection() {
-    let isConnected = false;
-    while (!isConnected) {
-        console.log('Connecting to ES');
-        try {
-            const health = await client.cluster.health({});
-            console.log(health);
-            isConnected = true;
-        } catch (err) {
-            console.log('Connection Failed, Retrying...', err);
-        }
-    }
-}
+        let host = this.host;
+        let port = this.port;
 
-/** Clear the index, recreate it, and add mappings */
-async function resetIndex() {
-    if (await client.indices.exists({index})) {
-        await client.indices.delete({index});
+        this.client = new elasticsearch.Client({host: {host, port}});
     }
 
-    await client.indices.create({index});
-    await putDiscMapping();
-}
+    putMapping(schema) {
+        return this.client.indices.putMapping({index: this.index, type: this.type, body: {properties: schema}});
+    }
 
-/** Add disc section schema mapping to ES */
-async function putDiscMapping() {
-    const schema = {
-        name: {type: 'text'},
-        artist: {type: 'keyword'},
-        release_date: {type: 'text'},
-        studio: {type: 'text'},
-        genre: {type: 'text'},
-        label: {type: 'text'},
-        producer: {type: 'text'}
-    };
+    bulkIndex(data) {
+        if (!Array.isArray(data))
+            data = [data];
 
-    return client.indices.putMapping({index, type, body: {properties: schema}});
-}
+        let self = this;
+        let bulkOps = [];
 
-function queryTerm(term, offset = 0) {
-    const body = {
-        from: offset,
-        query: {
-            match: {
-                name: {
-                    query: term,
-                    operator: 'and',
-                    fuzziness: 'auto'
+        data.forEach(element => {
+            // describe action
+            bulkOps.push({index: {_index: self.index, _type: self.type, _id: element.id}});
+
+            // add document
+            bulkOps.push(element);
+        });
+
+        return self.client.bulk({body: bulkOps});
+    }
+
+    bulkDelete(data) {
+        if (!Array.isArray(data))
+            data = [data];
+
+        let self = this;
+        let bulkOps = [];
+
+        data.forEach(element => {
+            // describe action
+            bulkOps.push({delete: {_index: self.index, _type: self.type, _id: element}});
+        });
+
+        return self.client.bulk({body: bulkOps});
+    }
+
+    bulkUpdate(data) {
+        if (!Array.isArray(data))
+            data = [data];
+
+        let self = this;
+        let bulkOps = [];
+
+        data.forEach(element => {
+            // describe action
+            bulkOps.push({update: {_index: self.index, _type: self.type, _id: element.id}});
+
+            // add document
+            bulkOps.push({doc: element} );
+        });
+
+        return self.client.bulk({body: bulkOps});
+    }
+
+    queryTerm(term, offset = 0) {
+        let self = this;
+
+        const body = {
+            from: offset,
+            query: {
+                match: {
+                    name: {
+                        query: term,
+                        operator: 'and',
+                        fuzziness: 'auto'
+                    }
                 }
-            }
-        },
-        highlight: {fields: {text: {}}}
-    };
+            },
+            highlight: {fields: {text: {}}}
+        };
 
-    return client.search({index, type, body});
+        return self.client.search({index: self.index, type: self.type, body: body});
+    }
 }
 
-module.exports = {
-    client, index, type, checkConnection, resetIndex, queryTerm
-};
+module.exports = SearchClient;
