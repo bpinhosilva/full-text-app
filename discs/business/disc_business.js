@@ -57,6 +57,17 @@ class DiscBusiness extends ApiBusiness {
 
         return self.discModel.deleteOneById(discId);
     }
+
+    queryTerm(params) {
+        let self = this;
+        let term = params.term;
+        let offset = params.offset;
+
+        if (Number.isNaN(offset) || !Number.isFinite(offset))
+            offset = 0;
+
+        return self.discModel.searchByTerm(term, offset);
+    }
 }
 
 module.exports = DiscBusiness;
