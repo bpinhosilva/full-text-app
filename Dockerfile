@@ -6,8 +6,8 @@ WORKDIR /usr/src/app
 
 # ADD . /usr/src/app
 
-# copy package.json and package-lock.json
-COPY package*.json /usr/src/app/
+# copy package.json 
+COPY package.json /usr/src/app/
 
 # install app dependencies
 RUN npm i
